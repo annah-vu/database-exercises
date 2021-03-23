@@ -5,25 +5,27 @@
 SHOW DATABASES;
 use `employees`;
 
--- list all tables in the db
+-- 4. list all tables in the db
 SHOW TABLES;
--- the kinds of data types I'm seeing are numeric (mostly int), string (mostly varchar and char), and date. 
+-- 5. the kinds of data types I'm seeing are numeric (mostly int), string (mostly varchar and char), enum and date. 
 
--- Numeric would be salaries for the amount they're making, dept management (int) as the departments are labeled by numbers, titles
--- string would be department names, titles, and their employee name entires on the employees file. 
--- date would be date employed, titles on the date they received that title till the time they held it, the latest date they are employed, employees birth dates on the employees tables, and salaries also has a date column to show the time period in which that income was made. 
+DESCRIBE employees
+
+-- 6. Numeric would be salaries for the amount they're making, dept management (int) as the departments are labeled by numbers, titles
+-- 7. string would be department names, titles, and their employee name entires on the employees file. 
+-- 8. date would be date employed, titles on the date they received that title till the time they held it, the latest date they are employed, employees birth dates on the employees tables, and salaries also has a date column to show the time period in which that income was made. 
 
 SHOW CREATE TABLE dept_manager;
 SHOW CREATE TABLE titles;
 SHOW CREATE TABLE employees;
 SHOW CREATE TABLE titles
 
--- relationship between department and employees is that all employees are assigned to a particular department, it cannot be null, they have to be working in one of those departments listed.
+-- 9. relationship between department and employees is that all employees are assigned to a particular department, it cannot be null, they have to be working in one of those departments listed. They both contain emp_no.
 SHOW CREATE TABLE dept_emp
 
 
 
--- This is the SQL that made the dept manager table
+-- 10 .This is the SQL that made the dept manager table
    CREATE TABLE `dept_manager` (
   `emp_no` int(11) NOT NULL,
   `dept_no` char(4) NOT NULL,
