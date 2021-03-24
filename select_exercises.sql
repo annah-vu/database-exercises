@@ -50,7 +50,7 @@ where release_date between 1990 and 1999;
 -- 4d there are 11 released in the 90s and the names are given from that code above us 
 -- The Bodyguard, Jagged Little Pill, Come on Over, Falling into You, Let's Talk About Love, Dangerous, the Immaculate Collection, Titanic: music from the motion picture, Metallica, Nevermind, and Supernatural
 select * from albums
-where sales < 20.00
+where sales < 20.00;
 
 -- 4e if you run the code above it will tell you the albums that had less than 20 million certified sales, there were 13 albums that didn't make this mark
 -- Grease, Bad, Sgt Pepper's Lonely Hearts Club Band, Dirty Dancing, Let's Talk About Love, Dangerous, The Immaculate Collection, Abbey Road, Born in the USA, Brothers in Arms, Titanic, Nevermind, and the Wall
@@ -58,6 +58,8 @@ where sales < 20.00
 
 -- 4f It would not be included because the string has to be specifically identical and to a computer the string "rock" does not match "hard rock" or "progressive rock". Each string has a unique identifier.
 
+select * from albums
+where genre = 'Rock'
 
 
 
