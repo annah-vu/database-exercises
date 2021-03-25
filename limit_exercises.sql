@@ -41,17 +41,16 @@ select * from `employees`
 where hire_date like '199%'
 and birth_date like '%12-25'
 order by hire_date
-limit 5 offset 50;
+limit 5 offset 45;
 
 /* 4.) the tenth page of results will have 
 
-
 emp_no	birth_date	first_name	last_name	gender	hire_date
-231580	1957-12-25	Christophe	Baca	F	1990-08-11
-275621	1961-12-25	Moie	Birsak	M	1990-08-11
-494492	1957-12-25	Chikako	Ibel	F	1990-08-12
-48396	1955-12-25	Shounak	Jansen	M	1990-08-13
-17351	1961-12-25	Zhigen	Boissier	M	1990-08-18
+463558	1963-12-25	Pranay	Narwekar	F	1990-07-18
+444269	1963-12-25	Marjo	Farrow	F	1990-07-18
+291662	1962-12-25	Ennio	Karcich	M	1990-08-05
+413687	1954-12-25	Dines	Lubachevsky	F	1990-08-06
+416525	1952-12-25	Ipke	Fontan	M	1990-08-06
 */ 
 
 -- We can view offset and limit as pages in a book. Offset tells us which page to go to by defining which entry we want to start off on. For example, if you were reading a book, you don't neccessarily have to start at the title page every single time you open it. You can skip to the page with the content you want to read. Limit tells us how much content we want on each page. We will use limits so that it doesn't take too long to run, similar to how you don't want each page of a book to have an excessive amount of text. Offset cannot be used without limit, because you have to know the parameters of each page befoe you can pick a specific one. 
