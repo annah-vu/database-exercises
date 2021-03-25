@@ -7,10 +7,17 @@ where first_name IN ('Irena', 'Vidya', 'Maya');
 
 use employees;
 select * from employees
+where first_name = 'Irena' 
+or first_name = 'Vidya' 
+or first_name = 'Maya';
+
+-- both yield the same 
+
+use employees;
+select * from employees
 where first_name like 'Irena' 
 or first_name like 'Vidya' 
 or first_name like 'Maya';
-
 -- 3.) Records returned was 709, so it does match with question 2
 select * from employees
 where first_name like 'Irena'
