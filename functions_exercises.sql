@@ -93,6 +93,10 @@ WHERE to_date LIKE '9999%';
 SELECT max(salary) FROM salaries
 WHERE to_date LIKE '9999%';
   # the highest current salary is 158,220
+  
+SELECT min(salary), max(salary)
+FROM salaries
+WHERE to_date LIKE '9999%';
 
 
 -- 6.) Use your knowledge of built in SQL functions to generate a username for all of the employees. A username should be all lowercase, and consist of the first character of the employees first name, the first 4 characters of the employees last name, an underscore, the month the employee was born, and the last two digits of the year that they were born. Below is an example of what the first 10 rows will look like: 
