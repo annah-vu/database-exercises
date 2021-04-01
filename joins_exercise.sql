@@ -58,6 +58,12 @@ JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
 JOIN departments ON dept_manager.dept_no = departments.dept_no
 WHERE to_date > curdate();
 
+/* I selected all from employees. 
+Then I joined emp_no on the employees table and dept_manager table.
+I also joined dept numbers so these joined tables would have what I need to figure out the employee identification
+and the department they work in. 
+I then added on to my code to make sure that the selected names were current employees.  */
+
 # 3.) Find the name of all departments currently managed by women.
 SELECT d.dept_name AS 'Department Name', 
        CONCAT(e.first_name, ' ', e.last_name) AS 'Department Manager'
@@ -82,6 +88,8 @@ JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
 JOIN departments ON dept_manager.dept_no = departments.dept_no
 WHERE to_date > curdate() AND employees.gender = 'F';
 
+/* I used the same code as I did for question two, but I added to it to filter only current managers
+that were female.  */
 
 #4.) Find the current titles of employees currently working in the Customer Service department.
 SELECT titles.title AS Title, 
@@ -103,6 +111,25 @@ JOIN departments ON departments.dept_no = dept_emp.dept_no
     AND departments.dept_name = 'Customer Service'
 GROUP BY titles.title;
 
+SELECT title AS Title, count(title) AS Count
+ FROM titles
+ JOIN dept_emp ON dept_emp.emp_no = titles.emp_no
+ JOIN departments ON departments.dept_no = dept_emp.dept_no
+ WHERE dept_emp.to_date > curdate() AND titles.to_date > curdate() AND departments.dept_name = 'Customer Service'
+ GROUP BY title;
+
+SELECT title AS Title, count(title) AS Count
+ FROM titles
+ JOIN `dept_emp` ON dept_emp.emp_no = titles.emp_no
+ JOIN departments ON departments.dept_no = dept_emp.dept_no
+ WHERE dept_emp.to_date > curdate() AND titles.to_date > curdate() AND departments.dept_name = 'Customer Service'
+ GROUP BY title;
+
+ /* Since I am looking for titles, I selected title from titles.
+ I joined tables based on emp_no and dept_no so I could figure out which employees worked for what department.
+ Then I made sure the employees selected were current, and that they worked in the Customer Service department.
+ Last, I grouped by title so I would not get any duplicates. */
+
 #5.) Find the current salary of all current managers.
 
 SELECT * 
@@ -110,7 +137,7 @@ FROM employees
 JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
 JOIN departments ON dept_manager.dept_no = departments.dept_no
 JOIN salaries ON employees.emp_no = salaries.emp_no
-WHERE dept_manager.to_date > curdate();
+WHERE dept_manager.to_date > curdate() AND salaries.to_date > curdate();
 
 SELECT concat(employees.first_name, ' ', employees.`last_name`) AS full_name, departments.dept_name, salaries.salary
 FROM `employees`
@@ -128,7 +155,10 @@ JOIN departments ON dept_emp.dept_no = departments.dept_no
 WHERE dept_emp.to_date > curdate()
 GROUP BY dept_emp.dept_no;
 
-
+/* Since I am looking for current employees and how many are in each department,
+I selected dept_no, dept_name, and set up a count for employees.
+I joined based on employee number and dept_no, so I can see which employees work for which department,
+then I made sure they are current employees. Last, I grouped by dept_no.  */
 
 
 #7.) Which department has the highest average salary? Hint: Use current not historic information.
@@ -143,6 +173,12 @@ GROUP BY dept_name
 ORDER BY average_salary DESC
 LIMIT 1;
 
+/* Since we want department and average salaries, I selected those.
+I joined the salaries and employees table based on emp_no.
+I joined the department employees and salaries table also based on emp_no.
+I joined department employees and departments based on dept_no.
+ Then I wanted only current salaries, and current employees. I grouped it by department name,
+ and ordered it by descending order. */
 
 #8.) Who is the highest paid employee in the Marketing department?
 SELECT first_name, last_name, salaries.salary
@@ -154,6 +190,14 @@ WHERE salaries.to_date > curdate() AND dept_emp.to_date > curdate() AND dept_nam
 ORDER BY salaries.salary DESC
 LIMIT 1;
 
+/* I selected first, last, and salary.
+I joined the salaries and employees table through emp_no.
+I joined the dept_emp and salaries table through emp_no.
+I joined the departments and dept_emp through dept_no.
+I made sure all the salaries were current, and employees were current.
+Also made sure they worked under the department name of Marketing.
+I ordered the salaries by desc order.*/
+
 #9.) Which current department manager has the highest salary?
 
 SELECT first_name, last_name, salaries.salary, departments.dept_name
@@ -164,4 +208,9 @@ JOIN departments ON dept_manager.dept_no = departments.dept_no
 WHERE salaries.to_date > curdate() AND dept_manager.to_date > curdate()
 ORDER BY salaries.salary DESC
 LIMIT 1;
-
+/* I selected first and last name, salary amount, and department.
+I joined salaries with dept manager on emp_no
+I joined dept manager with salaries on emp_no
+I joined departments with department manager on dept no.
+I made sure salaries were current, and so were the employees.
+Then I ordered by salary amount descending. When we run it, the first entry had the most which is sales.
