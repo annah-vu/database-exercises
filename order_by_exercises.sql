@@ -105,7 +105,8 @@ where first_name IN ('Irena', 'Vidya', 'Maya')
 order by first_name asc;
 
 -- 2.) Irena Reutenauer was the first and last name of my first person in the results. Vidya Simmen was the first and last name of the last person in the results. 
-
+/* Same code as before, but I ordered it by first name in ascending order. I scrolled all the way down for
+the last entry. It sorts by emoloyee number secondly. */
 -- 3.) Find all employees with first names 'Irena', 'Vidya', or 'Maya', and order your results returned by first name and then last name. In your comments, answer: What was the first and last name in the first row of the results? What was the first and last name of the last person in the table?
 use employees;
 select * from employees
@@ -113,7 +114,7 @@ where first_name IN ('Irena', 'Vidya', 'Maya')
 order by first_name, last_name;
 
 -- 3.) Irena Acton was the first and last name of the first entry in my results. Vidya Zweizig was the first and last name of my last entry in my results.
-
+/* Now it orders by alphabetical order of the full name, because I asked it to order by first and last name */
 -- 4.) Find all employees with first names 'Irena', 'Vidya', or 'Maya', and order your results returned by last name and then first name. In your comments, answer: What was the first and last name in the first row of the results? What was the first and last name of the last person in the table?
 use employees;
 select * from employees
@@ -145,3 +146,4 @@ and birth_date like '%12-25'
 order by birth_date ASC, hire_date desc;
 
 -- 7.) 362 employees returned. Name of the oldest employee who was hired last is Khun Bernini. Name of the youngest employee who was hired first is Douadi Pettis.
+/* I let the oldest people (by birth date) show up first, along with the most recent hire date. */

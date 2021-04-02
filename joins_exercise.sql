@@ -9,6 +9,9 @@ JOIN roles ON users.role_id = roles.id;
 SELECT * FROM users
 JOIN roles ON users.role_id = roles.id;
 
+select * from roles
+join users on users.role_id = roles.id;
+/* I am joining users.role_id, because it corresponds to roles.id */
 
 #Using left join
 USE join_example_db;
@@ -20,6 +23,8 @@ LEFT JOIN roles ON users.role_id = roles.id;
 SELECT * FROM users
 LEFT JOIN roles ON users.role_id = roles.id;
 
+/* your table you are selecting from is the left. With a left join, it returns all your values from your
+left circle and whatever corresponds to the entries in the left circle from the right will pop up. */
 #Using right join
 USE join_example_db;
 SELECT * FROM roles, users;
@@ -29,6 +34,13 @@ RIGHT JOIN roles ON users.role_id = roles.id;
 
 SELECT * FROM users
 RIGHT JOIN roles ON users.role_id = roles.id;
+
+SELECT * FROM roles
+left JOIN users ON users.role_id = roles.id;
+
+/* users is the left circle, so now it will pull up the roles table and correspond the values from users
+in a right join. You can flip them around to do a left join as well. */
+
 
 #Use count and the appropriate join type to get a list of roles along with the number of users that has the role. Hint: You will also need to use group by in the query.
 SELECT roles.name AS role_name, count(users.id)
@@ -52,8 +64,20 @@ JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
 JOIN departments ON dept_manager.dept_no = departments.dept_no
 WHERE to_date > curdate();
 
+SELECT first_name, last_name, departments.dept_name 
+FROM employees
+JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
+JOIN departments ON dept_manager.dept_no = departments.dept_no
+WHERE to_date > curdate();
+
 SELECT concat(employees.first_name, ' ', employees.`last_name`) AS full_name, departments.dept_name
 FROM `employees`
+JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
+JOIN departments ON dept_manager.dept_no = departments.dept_no
+WHERE to_date > curdate();
+
+SELECT concat(first_name, ' ', last_name) AS full_name, departments.dept_name
+FROM employees
 JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
 JOIN departments ON dept_manager.dept_no = departments.dept_no
 WHERE to_date > curdate();
@@ -125,6 +149,13 @@ SELECT title AS Title, count(title) AS Count
  WHERE dept_emp.to_date > curdate() AND titles.to_date > curdate() AND departments.dept_name = 'Customer Service'
  GROUP BY title;
 
+ SELECT title, count(title) AS Count
+ FROM titles
+ JOIN `dept_emp` ON dept_emp.emp_no = titles.emp_no
+ JOIN departments ON departments.dept_no = dept_emp.dept_no
+ WHERE titles.to_date > curdate() AND departments.dept_name = 'Customer Service'
+ GROUP BY title;
+
  /* Since I am looking for titles, I selected title from titles.
  I joined tables based on emp_no and dept_no so I could figure out which employees worked for what department.
  Then I made sure the employees selected were current, and that they worked in the Customer Service department.
@@ -155,6 +186,14 @@ JOIN departments ON dept_emp.dept_no = departments.dept_no
 WHERE dept_emp.to_date > curdate()
 GROUP BY dept_emp.dept_no;
 
+SELECT concat(employees.first_name, ' ', employees.`last_name`) AS full_name, departments.dept_name, salaries.salary
+FROM `employees`
+JOIN dept_manager ON employees.emp_no = dept_manager.emp_no
+JOIN departments ON dept_manager.dept_no = departments.dept_no
+JOIN salaries ON dept_manager.emp_no = salaries.emp_no
+WHERE dept_manager.to_date > curdate() AND salaries.to_date > curdate()
+ORDER BY departments.dept_name;
+
 /* Since I am looking for current employees and how many are in each department,
 I selected dept_no, dept_name, and set up a count for employees.
 I joined based on employee number and dept_no, so I can see which employees work for which department,
@@ -163,7 +202,7 @@ then I made sure they are current employees. Last, I grouped by dept_no.  */
 
 #7.) Which department has the highest average salary? Hint: Use current not historic information.
 
-SELECT dept_name, AVG(salaries.salary) AS average_salary
+SELECT departments.dept_name, AVG(salaries.salary) AS average_salary
 FROM employees
 JOIN salaries ON salaries.emp_no = employees.emp_no
 JOIN dept_emp ON salaries.emp_no = dept_emp.emp_no
@@ -196,7 +235,8 @@ I joined the dept_emp and salaries table through emp_no.
 I joined the departments and dept_emp through dept_no.
 I made sure all the salaries were current, and employees were current.
 Also made sure they worked under the department name of Marketing.
-I ordered the salaries by desc order.*/
+I ordered the salaries by desc order.
+The highest paid employee in the marketing department is Akemi Warwick*/
 
 #9.) Which current department manager has the highest salary?
 
@@ -214,3 +254,4 @@ I joined dept manager with salaries on emp_no
 I joined departments with department manager on dept no.
 I made sure salaries were current, and so were the employees.
 Then I ordered by salary amount descending. When we run it, the first entry had the most which is sales.
+Vishwani Minakawa from the marketing department (as a manager) has the highest salary.
