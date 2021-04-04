@@ -20,6 +20,7 @@ FROM `employees` WHERE emp_no = 101010)
 AND to_date > curdate();
 
 
+
 /* I selected all entries from the department employee table, because it also has a 'hire-date' which
 is called 'from-date' but it has that 'to-date' that the employees table does not have.
 
@@ -46,6 +47,15 @@ WHERE first_name = 'Aamod')
 AND to_date > curdate()
 GROUP BY title;
 
+SELECT 
+	title
+FROM titles
+WHERE emp_no IN (
+				SELECT emp_no
+				FROM employees
+				JOIN salaries USING(emp_no)
+				WHERE first_name = 'Aamod'
+					AND to_date > CURDATE());
 -- This is Ray's doing, but I didn't take into account its all historical roles by current Aamods. 
 SELECT
       t.title AS 'Titles Held by Aamods',
@@ -81,15 +91,22 @@ FROM employees
 JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
 WHERE to_date IN (SELECT to_date 
 FROM dept_emp
-WHERE to_date < curdate())
+WHERE to_date < curdate());
 
 SELECT *
 FROM dept_emp 
 WHERE to_date IN(SELECT to_date FROM dept_emp 
 WHERE to_date < curdate());
 
-select count(*) as number_of_non employees from employees where 
-emp_no not in (select emp_no from dept_emp where to date like '9999%');
+
+
+SELECT 
+	COUNT(*) AS number_of_non_employees
+FROM employees
+WHERE emp_no NOT IN (
+				SELECT emp_no
+				FROM dept_emp
+				WHERE to_date = '9999-01-01');
 
 -- 59900 do not work at this company anymore.
 /* I used the dept_emp table which has the employees to and from dates to see which employees have 
@@ -147,7 +164,7 @@ AND to_date > curdate();
 from the salaries table. I also made sure that the salaries that were selected were current. It returned 154,543 */
 
 -- 6.) How many current salaries are within 1 standard deviation of the current highest salary? 
-(Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
+(Hint: you can USE a built IN FUNCTION TO calculate the standard deviation.) What percentage of ALL salaries IS this?
 
 SELECT DISTINCT emp_no
 FROM salaries
