@@ -1,5 +1,5 @@
 -- 1. opened sequel pro and logged in
--- 2. saved my work 
+-- 2. saved my work in file named tables_exercises.sql
 -- 3. use employees db 
 
 SHOW DATABASES;
@@ -7,13 +7,16 @@ use `employees`;
 
 -- 4. list all tables in the db
 SHOW TABLES;
--- 5. the kinds of data types I'm seeing are numeric (mostly int), string (mostly varchar and char), enum and date. 
 
-DESCRIBE employees
 
--- 6. Numeric would be salaries for the amount they're making, dept management (int) as the departments are labeled by numbers, titles
--- 7. string would be department names, titles, and their employee name entires on the employees file. 
--- 8. date would be date employed, titles on the date they received that title till the time they held it, the latest date they are employed, employees birth dates on the employees tables, and salaries also has a date column to show the time period in which that income was made. 
+-- 5. Explore the employees table. What different data types are present on this table?
+DESCRIBE employees;
+/* the kinds of data types I'm seeing are numeric (mostly int), string (mostly varchar and char), enum and date. */
+
+
+-- 6. Numeric data types would be salaries for the amount they're making, dept management (int) as the departments are labeled by numbers, titles
+-- 7. string data types would be department names, titles, and their employee name entires on the employees file. 
+-- 8. date data types would be date employed, titles on the date they received that title till the time they held it, the latest date they are employed, employees birth dates on the employees tables, and salaries also has a date column to show the time period in which that income was made. 
 
 SHOW CREATE TABLE dept_manager;
 SHOW CREATE TABLE titles;
