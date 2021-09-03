@@ -130,7 +130,118 @@ left outer join EmployeeSalary on EmployeeDemographics.EmployeeID = EmployeeSala
 select EmployeeSalary.EmployeeID, FirstName, LastName from EmployeeDemographics
 left outer join EmployeeSalary on EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID;
 
+-- find the average salary for salesman position
 select JobTitle, AVG(Salary) from EmployeeDemographics
 inner join EmployeeSalary on EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
 where JobTitle = 'Salesman'
 Group by JobTitle;
+
+
+/* Unions 
+Similar to joins, a join combines based off common column.
+A union selects all data from both tables
+union takes out duplicates,
+union all will show duplicates */
+Insert into EmployeeDemographics VALUES
+(1011, 'Ryan', 'Howard', 26, 'Male'),
+(NULL, 'Holly', 'Flax', NULL, NULL),
+(1013, 'Darryl', 'Philbin', NULL, 'Male');
+
+Table 3 Query:
+Create Table WareHouseEmployeeDemographics 
+(EmployeeID int, 
+FirstName varchar(50), 
+LastName varchar(50), 
+Age int, 
+Gender varchar(50)
+);
+
+Table 3 Insert:
+Insert into WareHouseEmployeeDemographics VALUES
+(1013, 'Darryl', 'Philbin', NULL, 'Male'),
+(1050, 'Roy', 'Anderson', 31, 'Male'),
+(1051, 'Hidetoshi', 'Hasagawa', 40, 'Male'),
+(1052, 'Val', 'Johnson', 31, 'Female');
+
+
+select * from EmployeeDemographics
+union
+select * from WareHouseEmployeeDemographics;
+
+select * from EmployeeDemographics
+union all
+select * from WareHouseEmployeeDemographics
+order by EmployeeID;
+
+-- unions will only work well with tables with the same structure
+-- if you try to union tables with different column structures it won't look usable
+
+
+/* Case Statement */
+select FirstName, LastName, Age,
+Case
+    when Age > 30 then 'old'
+    else 'young'
+end
+from EmployeeDemographics
+where age is not null 
+order by Age; 
+
+-- keep in mind it performs the cases in order
+select FirstName, LastName, Age,
+Case
+    when Age > 30 then 'old'
+    when age between 27 and 30 then 'young'
+    else 'baby'
+end
+from EmployeeDemographics
+where age is not null 
+order by Age; 
+
+select FirstName, LastName, JobTitle, Salary,
+Case
+    when JobTitle = 'Salesman' then Salary + (Salary * .10)
+    when JobTitle = 'Accountant' then Salary + (Salary * .05)
+    else Salary + (Salary * .03)
+end as SalaryAfterRaise
+from EmployeeDemographics
+inner join EmployeeSalary on EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID;
+
+
+/* Having Clause 
+because you cannot use aggregate functions in where statements
+having goes after the group by*/
+select JobTitle, count(JobTitle)
+from EmployeeDemographics
+join EmployeeSalary on EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+group by JobTitle
+having count(JobTitle > 1);
+
+/* Updating/Deleting Data */
+
+
+
+
+
+/* some windows stuff */
+
+select * from employees
+join salaries on employees.emp_no = salaries.emp_no;
+
+SELECT *, AVG(SALARY) OVER(PARTITION BY gender) as gender_pay 
+FROM employees
+join salaries on employees.emp_no = salaries.emp_no
+AND to_date > curdate()
+order by last_name;
+
+SELECT *, AVG(SALARY) OVER(PARTITION BY gender) as gender_pay,
+rank() over(order by salary DESC)
+FROM employees
+join salaries on employees.emp_no = salaries.emp_no
+AND to_date > curdate()
+order by last_name;
+
+SELECT order_id, order_date, customer_name, city, order_amount
+ ,SUM(order_amount) OVER(PARTITION BY city) as grand_total 
+FROM [dbo].[Orders];
+
