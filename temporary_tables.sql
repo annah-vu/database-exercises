@@ -7,6 +7,8 @@ FROM employees.employees
 JOIN employees.dept_emp USING(emp_no)
 JOIN employees.departments USING(dept_no);
 
+
+
 SELECT * FROM employees_with_departments;
 
 -- 1a.) Add a column named full_name to this table. It should be a VARCHAR whose length is the sum of the lengths of the first name and last name columns
@@ -26,7 +28,7 @@ ALTER TABLE employees_with_departments DROP COLUMN last_name;
 
 SELECT * FROM employees_with_departments;
 
--- 1d.) What is another way you could have ended up with this same table?
+-- 1d.) What is another way you could have ended up with this same table? We can create full_name in original query 
 
 
 -- 2.) Create a temporary table based on the payment table from the sakila database.
@@ -69,7 +71,8 @@ FROM employees_with_departments
 JOIN employees.salaries ON employees_with_departments.emp_no = employees.salaries.emp_no
 WHERE employees.salaries.to_date > curdate()
 GROUP BY dept_name;
-
+ 
+ -- 
 SELECT AVG(employees.salaries.salary) AS h_average_salary
 FROM employees_with_departments
 JOIN employees.salaries ON employees_with_departments.emp_no = employees.salaries.emp_no;
@@ -94,7 +97,7 @@ SET h_average_salary = 63805.4005;
 
 SELECT *, (c_average_salary - h_average_salary)/ 16904.82828800014 AS z_score
 FROM salary_comparison;
-
+-- 
 USE employees;
 SELECT stddev(salary)
 FROM salaries;
