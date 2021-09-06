@@ -3,7 +3,7 @@
 -- Creating tables
 create table EmployeeDemographics
 (EmployeeID int, 
-FirstName, varchar(50),
+FirstName varchar(50),
 LastName varchar(50),
 Age int,
 Gender varchar(50)
@@ -234,12 +234,47 @@ join salaries on employees.emp_no = salaries.emp_no
 AND to_date > curdate()
 order by last_name;
 
+SELECT *, AVG(SALARY) OVER(PARTITION BY gender) as gender_pay 
+FROM employees
+join salaries on employees.emp_no = salaries.emp_no
+AND to_date > curdate()
+order by hire_date
+limit 5;
+
 SELECT *, AVG(SALARY) OVER(PARTITION BY gender) as gender_pay,
 rank() over(order by salary DESC)
 FROM employees
 join salaries on employees.emp_no = salaries.emp_no
 AND to_date > curdate()
 order by last_name;
+
+SELECT *, AVG(SALARY) OVER(PARTITION BY dept_name) as avg_dept_salary 
+FROM employees
+join salaries on employees.emp_no = salaries.emp_no
+join dept_emp on employees.emp_no = dept_emp.emp_no
+join departments on dept_emp.dept_no = departments.dept_no
+AND salaries.to_date > curdate()
+order by hire_date
+limit 5;
+
+SELECT e.first_name, e.last_name, e.gender, departments.`dept_name`, salaries.salary, AVG(SALARY) OVER(PARTITION BY dept_name) as avg_dept_salary 
+FROM employees as e
+join salaries on e.emp_no = salaries.emp_no
+join dept_emp on e.emp_no = dept_emp.emp_no
+join departments on dept_emp.dept_no = departments.dept_no
+AND salaries.to_date > curdate()
+order by hire_date
+limit 5;
+
+SELECT e.first_name, e.last_name, e.gender, departments.`dept_name`, salaries.salary, MAX(SALARY) OVER(PARTITION BY dept_name) as max_dept_salary, min(salary) over (partition by dept_name) as min_dept_salary 
+FROM employees as e
+join salaries on e.emp_no = salaries.emp_no
+join dept_emp on e.emp_no = dept_emp.emp_no
+join departments on dept_emp.dept_no = departments.dept_no
+AND salaries.to_date > curdate()
+order by hire_date
+limit 5;
+
 
 SELECT order_id, order_date, customer_name, city, order_amount
  ,SUM(order_amount) OVER(PARTITION BY city) as grand_total 
