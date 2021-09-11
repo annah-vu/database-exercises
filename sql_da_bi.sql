@@ -110,3 +110,27 @@ create table Sales(
      */
 alter table sales
 add foreign key(customer_id) references customers(customer_id) on delete cascade;
+
+
+-- Unique keys
+-- every entry in column has no duplicates, such as an email address
+
+create table customers(
+    customer_id int,
+    first_name varchar(255),
+    last_name varchar(255),
+    email_address varchar(255),
+    number_of_complaints int,
+    primary key(customer_id),
+    unique key(email_address)
+);
+
+/* or */
+alter table customers
+add unique key (email_address);
+
+-- indexes to remove unique keys, do not use parenthesis when dropping index
+alter table customers
+drop index email_address
+
+
