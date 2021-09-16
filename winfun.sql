@@ -207,3 +207,12 @@ select distinct emp_no, avg(salary) over(partition by emp_no) from salaries;
 
 select distinct emp_no, avg(salary) over(partition by emp_no) as average from salaries
 order by average desc;
+
+
+-- self join 
+select concat(managers.first_name,' ', managers.last_name) as manager_name, dept_name, concat(employees.first_name, ' ',employees.last_name) as employee_name
+from employees as managers
+join dept_manager on managers.emp_no = dept_manager.emp_no
+join departments using(dept_no)
+join dept_emp using(dept_no)
+join employees on employees.emp_no = dept_emp.emp_no;
