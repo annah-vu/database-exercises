@@ -158,7 +158,8 @@ and salaries.to_date>curdate();
 
 -- Lead and Lag
 --------------------------------------------------------------------------------------------
-/* compare value of current row to that of its preceding or succeeding row.*/
+/* compare value of current row to that of its preceding or succeeding row.
+requires an order by clause*/
 select *, lead(salary,1) over(partition by dept_name order by salary desc) as "sal_next"
 from employees as e
 join salaries on e.emp_no = salaries.emp_no
@@ -208,6 +209,19 @@ select distinct emp_no, avg(salary) over(partition by emp_no) from salaries;
 select distinct emp_no, avg(salary) over(partition by emp_no) as average from salaries
 order by average desc;
 
+-- fun joins 
+select concat(first_name, ' ', last_name) as full_name, salary, dept_name from employees
+join salaries using(emp_no)
+join dept_emp using(emp_no)
+join departments using(dept_no);
+
+--cool
+select salaries.emp_no, dept_name, salary, avg(salary) over(partition by dept_name) as dept_salary
+from salaries
+join dept_emp on dept_emp.emp_no = salaries.emp_no
+join departments on departments.dept_no = dept_emp.dept_no
+where salaries.to_date > curdate()
+order by salaries.emp_no;
 
 -- self join 
 select concat(managers.first_name,' ', managers.last_name) as manager_name, dept_name, concat(employees.first_name, ' ',employees.last_name) as employee_name
