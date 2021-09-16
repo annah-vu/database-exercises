@@ -101,3 +101,12 @@ select datediff(to_date, from_date) from salaries;
 select distinct emp_no, avg(datediff(to_date, from_date)) over(partition by emp_no) as 'avg_time' from salaries
 where to_date not like '9999%'
 group by emp_no, to_date, from_date;
+
+
+select hire_date from employees
+where hire_date between '1985-11-21' and '1986-06-26';
+
+select emp_no, sum(salary)
+from salaries
+where to_date between '1985-11-21' and '1986-06-26'
+group by emp_no
