@@ -47,6 +47,10 @@ where artist = 'Pink Floyd';
 select * from albums
 where name = "Sgt. Pepper's Lonely Hearts Club Band";
 
+select release_date
+from albums
+where name = "Sgt. Pepper's Lonely Hearts Club Band"
+
         -- Sgt. Pepper's Lonely Hearts Club Band was released in 1967
 
 -- 4c.) The genre for the album Nevermind
